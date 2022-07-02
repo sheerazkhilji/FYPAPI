@@ -1,4 +1,5 @@
 ﻿using API.DBManager;
+using ClassLibrary;
 using ClassLibrary1;
 using Dapper;
 using FYPAPI.IServices;
@@ -50,5 +51,18 @@ namespace FYPAPI.Services
             parameters.Add("@CategoryId", Id, DbType.Int32, ParameterDirection.Input);
             return _dapper.Get<int>(@"[dbo].[usp_UpdateCategory]", parameters);
         }
+        public List<Country> getCategoriesDropDown()
+        {
+            DynamicParameters parameters = new DynamicParameters();
+         
+            return _dapper.GetAll<Country>(@"[dbo].[usp_getCategoriesDropDown]", parameters);
+        }
+
+
+
+
+
+
+
     }
 }

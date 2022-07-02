@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -65,6 +66,11 @@ namespace FYPAPI
             services.AddTransient<IVendorServices, VendorServices>();
 
             services.AddTransient<ICategoryServices, CategoryServices>();
+            services.AddTransient<IProductServices, ProductServices>();
+
+
+
+           
 
         }
 
@@ -83,6 +89,9 @@ namespace FYPAPI
             app.UseCors("defaultcorspolicy");
             app.UseRouting();
             app.UseStaticFiles();
+            StaticFileOptions options = new StaticFileOptions { ContentTypeProvider = new FileExtensionContentTypeProvider() }; ((FileExtensionContentTypeProvider)options.ContentTypeProvider).Mappings.Add(new KeyValuePair<string, string>(".glb", "model/gltf-buffer"));
+            app.UseStaticFiles(options);
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

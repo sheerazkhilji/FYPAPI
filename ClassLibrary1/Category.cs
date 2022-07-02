@@ -31,7 +31,10 @@ namespace ClassLibrary1
         public int ModifiedBy { get; set; }
 
         public bool IsActive { get; set; }
+        
+        public string label { get; set; }
 
+        public int value { get; set; }
 
 
 

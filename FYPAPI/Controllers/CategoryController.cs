@@ -43,6 +43,7 @@ namespace FYPAPI.Controllers
             {
                 user = TokenManager.GetValidateToken(Request);
                 if (user == null) return CustomStatusResponse.GetResponse(401);
+                obj.CreatedBy = user.UserId;
 
 
                 var res = _service.AddUpdatecategory(obj);
@@ -185,6 +186,48 @@ namespace FYPAPI.Controllers
             }
 
         }
+
+
+
+        [HttpPost("getCategoriesDropDown")]
+        public Response getCategoriesDropDown()
+        {
+            UserManagement user = null;
+            Response response = new Response();
+            try
+            {
+                user = TokenManager.GetValidateToken(Request);
+                if (user == null) return CustomStatusResponse.GetResponse(401);
+
+
+                var res = _service.getCategoriesDropDown();
+                response = CustomStatusResponse.GetResponse(200);
+                if (res !=null)
+                {
+                    response.Data = res;
+                }
+                return response;
+            }
+
+            catch (DbException ex)
+            {
+                response = CustomStatusResponse.GetResponse(600);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response = CustomStatusResponse.GetResponse(500);
+                // response.Token = TokenManager.GenerateToken(claimDTO);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+
+        }
+
+
+
+
 
         [HttpPost]
         [Route("ImageUpload")]

@@ -1,4 +1,5 @@
-﻿using ClassLibrary1;
+﻿using ClassLibrary;
+using ClassLibrary1;
 using System.Collections.Generic;
 
 namespace FYPAPI.IServices
@@ -11,6 +12,8 @@ namespace FYPAPI.IServices
          Category GetCategoryById(int Id);
 
         int  InActive(int Id);
+        List<Country> getCategoriesDropDown();
+
 
     }
 }
