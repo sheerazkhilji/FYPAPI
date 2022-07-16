@@ -22,7 +22,7 @@ namespace API.IServices
 
         int DeleteVendor(int id);
 
-
+         int ActiveInActiveVendor(int id);
 
     }
 }

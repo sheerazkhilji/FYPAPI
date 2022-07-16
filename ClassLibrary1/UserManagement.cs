@@ -34,6 +34,9 @@ namespace ClassLibrary
         public bool IsEmailVerifired { get; set; }
         public bool IsApproved { get; set; }
 
+        public bool IsDelete { get; set; }
+
+        public string Status { get; set; }
 
 
         public string PorfileImgPath { get; set; }

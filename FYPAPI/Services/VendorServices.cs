@@ -71,8 +71,14 @@ namespace API.Services
         public int DeleteVendor(int id)
         {
             DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@Id", id, DbType.Int32, ParameterDirection.Input);
+            parameters.Add("@UserId", id, DbType.Int32, ParameterDirection.Input);
             return _dapper.Insert<int>(@"[dbo].[usp_DeleteVendor]", parameters);
+        }
+        public int ActiveInActiveVendor(int id)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Id", id, DbType.Int32, ParameterDirection.Input);
+            return _dapper.Insert<int>(@"[dbo].[usp_ActiveInActiveVendor]", parameters);
         }
     }
 }
