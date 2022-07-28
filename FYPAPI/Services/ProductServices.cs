@@ -1,10 +1,12 @@
 ﻿using API.DBManager;
+using ClassLibrary;
 using ClassLibrary1;
 using Dapper;
 using FYPAPI.IServices;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace FYPAPI.Services
 {
@@ -63,11 +65,36 @@ namespace FYPAPI.Services
 
             return _dapper.GetAll<Product>(@"[dbo].[usp_GetAllProduct]", parameters);
         }
+
+        public List<Product> GetExclusiveProducts()
+        {
+            DynamicParameters parameters = new DynamicParameters();
+          
+            return _dapper.GetAll<Product>(@"[dbo].[usp_GetExclusiveProducts]", parameters);
+        }
+
         public Product GetProductById(int Id)
         {
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@Id", Id, DbType.Int32, ParameterDirection.Input);
             return _dapper.Get<Product>(@"[dbo].[usp_GetProductById]", parameters);
+
+        }
+
+        public Shop GetShopDate()
+        {
+            DynamicParameters parameters = new DynamicParameters();
+
+            Shop shop = new Shop();
+
+            var data = _dapper.GetMultipleObjects(@"[dbo].[usp_GetDataForShop]", parameters, gr => gr.Read<Category>(), gr => gr.Read<Vendor>(), gr => gr.Read<Product>());
+            shop.category = data.Item1.ToList();
+            shop.Stores = data.Item2.ToList();
+            shop.product = data.Item3.ToList();
+
+
+
+            return shop;
 
         }
     }

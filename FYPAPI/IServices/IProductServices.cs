@@ -10,5 +10,13 @@ namespace FYPAPI.IServices
         public Product GetProductById(int Id);
 
 
+        List<Product> GetExclusiveProducts();
+
+
+
+        Shop GetShopDate();
+
+
+
     }
 }

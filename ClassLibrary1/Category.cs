@@ -37,6 +37,7 @@ namespace ClassLibrary1
         public int value { get; set; }
 
 
+        public string productcount { get; set; }
 
     }
 }

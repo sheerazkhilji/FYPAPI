@@ -154,6 +154,76 @@ namespace FYPAPI.Controllers
         }
 
 
+        [HttpPost("GetExclusiveProducts")]
+        public Response GetExclusiveProducts()
+        {
+          
+            Response response = new Response();
+            try
+            {
+
+                var res = _service.GetExclusiveProducts();
+                response = CustomStatusResponse.GetResponse(200);
+                if (res != null)
+                {
+                    response.Data = res;
+                }
+                return response;
+            }
+
+            catch (DbException ex)
+            {
+                response = CustomStatusResponse.GetResponse(600);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response = CustomStatusResponse.GetResponse(500);
+                // response.Token = TokenManager.GenerateToken(claimDTO);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+
+        }
+
+
+
+
+
+
+        [HttpPost("GetShopDate")]
+        public Response GetShopDate()
+        {
+
+            Response response = new Response();
+            try
+            {
+
+                var res = _service.GetShopDate();
+                response = CustomStatusResponse.GetResponse(200);
+                if (res != null)
+                {
+                    response.Data = res;
+                }
+                return response;
+            }
+
+            catch (DbException ex)
+            {
+                response = CustomStatusResponse.GetResponse(600);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response = CustomStatusResponse.GetResponse(500);
+                // response.Token = TokenManager.GenerateToken(claimDTO);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+
+        }
 
 
         [HttpPost]
@@ -257,6 +327,11 @@ namespace FYPAPI.Controllers
                 throw;
             }
         }
+
+
+
+
+
 
 
     }

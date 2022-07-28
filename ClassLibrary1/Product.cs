@@ -29,6 +29,8 @@ namespace ClassLibrary1
 
 
         public List<ProductModelColor> productModelColors { get; set; }
+        public int ProductRating { get; set; }
+        public int Ratingcount { get; set; }
 
     }
 
