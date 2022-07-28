@@ -67,6 +67,12 @@ namespace API.Services
             parameters.Add("@Id", id, DbType.Int32, ParameterDirection.Input);
             return _dapper.Insert<int>(@"[dbo].[usp_DisApprove]", parameters);
         }
+        public int ApproveVendor(int id)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Id", id, DbType.Int32, ParameterDirection.Input);
+            return _dapper.Insert<int>(@"[dbo].[usp_ApproveVendor]", parameters);
+        }
 
         public int DeleteVendor(int id)
         {
