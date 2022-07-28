@@ -18,6 +18,7 @@ namespace API.IServices
 
 
         int DisApprove(int id);
+        int ApproveVendor(int id);
 
 
         int DeleteVendor(int id);
