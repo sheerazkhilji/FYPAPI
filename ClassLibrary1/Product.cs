@@ -51,4 +51,12 @@ namespace ClassLibrary1
     }
 
 
+    public class ProductAndModelColor
+    {
+        public Product product { get; set; }
+        public List<ProductModelColor> productModelColors { get; set; }
+
+
+    }
+
 }

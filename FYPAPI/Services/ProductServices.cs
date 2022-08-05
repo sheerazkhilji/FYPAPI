@@ -73,12 +73,19 @@ namespace FYPAPI.Services
             return _dapper.GetAll<Product>(@"[dbo].[usp_GetExclusiveProducts]", parameters);
         }
 
-        public Product GetProductById(int Id)
+        public ProductAndModelColor GetProductById(int Id)
         {
+            ProductAndModelColor product = new ProductAndModelColor();
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@Id", Id, DbType.Int32, ParameterDirection.Input);
-            return _dapper.Get<Product>(@"[dbo].[usp_GetProductById]", parameters);
 
+            var data = _dapper.GetMultipleObjects(@"[dbo].[usp_GetProductById]", parameters, gr => gr.Read<Product>(), gr => gr.Read<ProductModelColor>());
+
+            product.product = data.Item1.FirstOrDefault();
+
+            product.productModelColors = data.Item2.ToList();
+
+            return product;
         }
 
         public Shop GetShopDate()
@@ -97,5 +104,7 @@ namespace FYPAPI.Services
             return shop;
 
         }
+
+        
     }
 }
