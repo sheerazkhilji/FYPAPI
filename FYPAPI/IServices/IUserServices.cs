@@ -16,6 +16,9 @@ namespace API.IServices
         List<UserManagement> getAllcustomers();
 
         UserManagement GetcustomerId(int id);
+        Vendor GetProfileDate(int id);
+
+        int UpdateProfile(Vendor vendor);
 
 
     }
