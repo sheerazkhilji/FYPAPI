@@ -67,6 +67,7 @@ namespace FYPAPI
 
             services.AddTransient<ICategoryServices, CategoryServices>();
             services.AddTransient<IProductServices, ProductServices>();
+            services.AddTransient<IorderServices, orderServices>();
 
 
 
