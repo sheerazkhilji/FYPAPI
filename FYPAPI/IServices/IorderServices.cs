@@ -16,6 +16,7 @@ namespace FYPAPI.IServices
 
         public List<OrderSlip> OrderSlip();
 
+        public Ordertracking Ordertracking(string ordernumber);
 
     }
 }

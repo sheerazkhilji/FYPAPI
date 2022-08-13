@@ -1,5 +1,5 @@
-﻿using iTextSharp.text;
-using iTextSharp.text.pdf;
+﻿//using iTextSharp.text;
+//using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,6 +19,12 @@ namespace ClassLibrary1
         public bool IsShippingDifferentAddress { get; set; }
 
         public string OrderStatus { get; set; }
+
+        public string OrderNumber { get; set; }
+
+        public string Deliverytime { get; set; }
+
+        public string orderdate { get; set; }
         public string AdditionalInfo { get; set; }
 
         public int UserId { get; set; }
@@ -67,6 +73,9 @@ namespace ClassLibrary1
 
 
 
+   
+
+
 
     public class OrderSlip
     {
@@ -75,7 +84,8 @@ namespace ClassLibrary1
         public string Address { get; set; }
         public int Quanlity { get; set; }
 
-        public string AdditionalInfo { get; set; }
+    public string productcount { get; set; }
+    public string AdditionalInfo { get; set; }
 
         public string PaymentMethodType { get; set; }
 
@@ -101,38 +111,54 @@ namespace ClassLibrary1
 
 
 
-    public class Slip
+    public class Ordertracking
     {
-        Document _document;
-        Font _FontStyle;
-        PdfPTable _pdfPTable;
-        PdfPCell _pdfPCell;
-        MemoryStream _memoryStream = new MemoryStream();
 
-        List<OrderUserId> _orderUsers = new List<OrderUserId>();
+
+        public Order order { get; set; }
+
+        public List<OrderSlip>  CustomerOrderItems { get; set; }
+
+        public List<OrderSlip>  OrderNeedtoBeDelivered { get; set; }
+        public List<OrderSlip>  OrderNeedNottoBeDelivered { get; set; }
+
+
+
+}
+
+
+//public class Slip
+//    {
+//        Document _document;
+//        Font _FontStyle;
+//        PdfPTable _pdfPTable;
+//        PdfPCell _pdfPCell;
+//        MemoryStream _memoryStream = new MemoryStream();
+
+//        List<OrderUserId> _orderUsers = new List<OrderUserId>();
  
 
-        public byte[] PrepareSlip(List<OrderUserId> orderUsers)
-        {
+//        public byte[] PrepareSlip(List<OrderUserId> orderUsers)
+//        {
 
-            _orderUsers = orderUsers;
-            _document = new Document(PageSize.A4, 0f, 0f, 0f, 0f);
-            _document.SetPageSize(PageSize.A4);
-            _document.SetMargins(20f, 20f, 20f, 20f);
-            _pdfPTable.WidthPercentage = 100;
-            _pdfPTable.HorizontalAlignment = Element.ALIGN_LEFT;
-            _FontStyle = FontFactory.GetFont("Tahoma", 8f, 1);
+//            _orderUsers = orderUsers;
+//            _document = new Document(PageSize.A4, 0f, 0f, 0f, 0f);
+//            _document.SetPageSize(PageSize.A4);
+//            _document.SetMargins(20f, 20f, 20f, 20f);
+//            _pdfPTable.WidthPercentage = 100;
+//            _pdfPTable.HorizontalAlignment = Element.ALIGN_LEFT;
+//            _FontStyle = FontFactory.GetFont("Tahoma", 8f, 1);
 
-            PdfWriter.GetInstance(_document, _memoryStream);
-            _document.Open();
-            _pdfPTable.SetWidths(new float[] { 20f, 150f, 100f });
-            _pdfPTable.HeaderRows = 2;
-            _document.Add(_pdfPTable);
-            _document.Close();
-            return _memoryStream.ToArray();
-        }
+//            PdfWriter.GetInstance(_document, _memoryStream);
+//            _document.Open();
+//            _pdfPTable.SetWidths(new float[] { 20f, 150f, 100f });
+//            _pdfPTable.HeaderRows = 2;
+//            _document.Add(_pdfPTable);
+//            _document.Close();
+//            return _memoryStream.ToArray();
+//        }
 
         
-    }
+//    }
 
 }

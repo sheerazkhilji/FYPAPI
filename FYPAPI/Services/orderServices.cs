@@ -4,6 +4,7 @@ using Dapper;
 using FYPAPI.IServices;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace FYPAPI.Services
 {
@@ -61,6 +62,27 @@ namespace FYPAPI.Services
 
             return _dapper.Insert<int>(@"[dbo].[usp_ChangeStatusOrder]", parameters);
         }
+
+
+
+        public Ordertracking Ordertracking(string ordernumber)
+        {
+            Ordertracking ordertracking = new Ordertracking();
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@ordernumber", ordernumber, DbType.String, ParameterDirection.Input);
+
+            var data = _dapper.GetMultipleObjects(@"[dbo].[usp_OrderTracking]", parameters, gr => gr.Read<Order>(), gr => gr.Read<OrderSlip>(), gr => gr.Read<OrderSlip>(), gr => gr.Read<OrderSlip>());
+
+            ordertracking.order = data.Item1.FirstOrDefault();
+            ordertracking.CustomerOrderItems = data.Item2.ToList();
+            ordertracking.OrderNeedtoBeDelivered = data.Item3.ToList();
+            ordertracking.OrderNeedNottoBeDelivered = data.Item4.ToList();
+
+
+            return ordertracking;
+        }
+
+
         //Test
 
         public List<OrderSlip> OrderSlip()
