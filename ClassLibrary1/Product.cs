@@ -32,6 +32,8 @@ namespace ClassLibrary1
         public int ProductRating { get; set; }
         public int Ratingcount { get; set; }
 
+        public float Revenue { get; set; }
+
     }
 
 

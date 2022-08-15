@@ -50,7 +50,7 @@ namespace API.Services
             parameters.Add("@CountryId", obj.CountryId, DbType.Int32, ParameterDirection.Input);
             parameters.Add("@StoreName", obj.StoreName, DbType.String, ParameterDirection.Input);
             parameters.Add("@StoreAddress", obj.StoreAddress, DbType.String, ParameterDirection.Input);
-            parameters.Add("@profilepic", obj.PorfileImgPath, DbType.String, ParameterDirection.Input);
+         //   parameters.Add("@profilepic", obj.PorfileImgPath, DbType.String, ParameterDirection.Input);
            return _dapper.Insert<int>(@"[dbo].[usp_SelfVendorRegistration]", parameters);
 
         }

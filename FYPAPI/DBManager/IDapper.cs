@@ -72,6 +72,18 @@ namespace API.DBManager
                                 Func<Dapper.SqlMapper.GridReader, IEnumerable<T7>> func7,
                                 Func<Dapper.SqlMapper.GridReader, IEnumerable<T8>> func8);
 
+        Tuple<IEnumerable<T1>, IEnumerable<T2>, IEnumerable<T3>, IEnumerable<T4>, IEnumerable<T5>, IEnumerable<T6>, Tuple<IEnumerable<T7>, IEnumerable<T8> , IEnumerable<T9>, IEnumerable<T10>>> GetMultipleObjects<T1, T2, T3, T4, T5, T6, T7, T8,T9,T10>(string sql, object parameters,
+                                Func<Dapper.SqlMapper.GridReader, IEnumerable<T1>> func1,
+                                Func<Dapper.SqlMapper.GridReader, IEnumerable<T2>> func2,
+                                Func<Dapper.SqlMapper.GridReader, IEnumerable<T3>> func3,
+                                Func<Dapper.SqlMapper.GridReader, IEnumerable<T4>> func4,
+                                Func<Dapper.SqlMapper.GridReader, IEnumerable<T5>> func5,
+                                Func<Dapper.SqlMapper.GridReader, IEnumerable<T6>> func6,
+                                Func<Dapper.SqlMapper.GridReader, IEnumerable<T7>> func7,
+                                Func<Dapper.SqlMapper.GridReader, IEnumerable<T8>> func8,
+                                Func<Dapper.SqlMapper.GridReader, IEnumerable<T9>> func9,
+             Func<Dapper.SqlMapper.GridReader, IEnumerable<T10>> func10);
+
 
 
     }
