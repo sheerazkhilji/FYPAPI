@@ -16,7 +16,7 @@ namespace ClassLibrary1
         public int TotalOrdersCompleted { get; set; }
         public int TotalCustomerCount { get; set; }
 
-
+        public int Pendingorders { get; set; }
         public int Revenue { get; set; }
         public List<DBProduct> products { get; set; }
 
@@ -27,6 +27,14 @@ namespace ClassLibrary1
 
 
         public List<DBOrderStatus> orderStatus { get; set; }
+
+
+        public CompletedOrders completedOrders { get; set; }
+
+
+        public PendingOrders DpendingOrders { get; set; }
+
+        public CancelledOrders cancelledOrders { get; set; }
     }
 
 
@@ -79,6 +87,42 @@ namespace ClassLibrary1
 
         public float Revenue { get; set; }
 
+    }
+
+    public class CompletedOrders
+    {
+
+
+        public int value { get; set; }
+        public string Orderstatus { get; set; }
+    }
+
+    public class PendingOrders
+    {
+
+
+        public int value { get; set; }
+        public string Orderstatus { get; set; }
+    }
+       public class CancelledOrders
+    {
+
+
+        public int value { get; set; }
+        public string Orderstatus { get; set; }
+    }
+
+ 
+
+     public class RequestParameters
+    {
+
+        public int OrderId { get; set; }
+
+        public int UserId { get; set; }
+
+
+        public string StoreName { get; set; }
     }
 
 }

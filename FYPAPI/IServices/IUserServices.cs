@@ -21,5 +21,9 @@ namespace API.IServices
         int UpdateProfile(Vendor vendor);
 
 
+        int Deletecustomer(int id);
+
+        int ActiveInActivecustomer(int id);
+
     }
 }

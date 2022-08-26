@@ -1,9 +1,11 @@
 ﻿using API.DBManager;
 using API.IServices;
 using ClassLibrary;
+using ClassLibrary1;
 using Dapper;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace API.Services
 {
@@ -86,6 +88,41 @@ namespace API.Services
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@Id", id, DbType.Int32, ParameterDirection.Input);
             return _dapper.Insert<int>(@"[dbo].[usp_ActiveInActiveVendor]", parameters);
+        }
+
+
+
+        public DashBoardModel GetVendordashboardData(int id)
+        {
+            DashBoardModel dashBoardModel = new DashBoardModel();
+           
+
+            DynamicParameters parameters = new DynamicParameters();
+
+            parameters.Add("@Id", id, DbType.Int32, ParameterDirection.Input);
+
+            var data = _dapper.GetMultipleObjects(@"[dbo].[Usp_VendorDashBordStatus]", parameters, gr => gr.Read<int>(), gr => gr.Read<int>(), gr => gr.Read<int>(), gr => gr.Read<int>(),  gr => gr.Read<DBProduct>(), gr => gr.Read<CompletedOrders>(), gr => gr.Read<PendingOrders>(), gr => gr.Read<CancelledOrders>(), gr => gr.Read<DBOrderStatus>());
+
+
+            dashBoardModel.TotalEarned = data.Item1.FirstOrDefault();
+           
+            dashBoardModel.InventoryStokes = data.Item2.FirstOrDefault();
+            dashBoardModel.TotalOrdersCompleted = data.Item3.FirstOrDefault();
+            dashBoardModel.Pendingorders = data.Item4.FirstOrDefault();
+            dashBoardModel.products = data.Item5.ToList();
+            dashBoardModel.completedOrders = data.Item6.FirstOrDefault();
+            dashBoardModel.DpendingOrders = data.Item7.Item1.FirstOrDefault();
+            dashBoardModel.cancelledOrders = data.Item7.Item2.FirstOrDefault();
+            dashBoardModel.orderStatus = data.Item7.Item3.ToList();
+
+
+
+
+            return dashBoardModel;
+
+
+
+
         }
     }
 }
