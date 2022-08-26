@@ -8,6 +8,7 @@ namespace FYPAPI.IServices
         int AddUpdateproduct(Product obj);
         List<Product> GetAllProduct(int id);
         public ProductAndModelColor GetProductById(int Id);
+        public object GetColorsAndLayernameByID(int id);
 
 
         List<Product> GetExclusiveProducts();

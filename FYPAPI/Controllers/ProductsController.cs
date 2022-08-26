@@ -152,6 +152,39 @@ namespace FYPAPI.Controllers
             }
 
         }
+        
+        [HttpPost("GetProductByIdForCustomer/{id}")]
+        public Response GetProductByIdForCustomer(int id)
+        {
+            Response response = new Response();
+            try
+            {
+
+              
+
+                var res = _service.GetProductById(id);
+                response = CustomStatusResponse.GetResponse(200);
+                if (res != null)
+                {
+                    response.Data = res;
+                }
+                return response;
+            }
+
+            catch (DbException ex)
+            {
+                response = CustomStatusResponse.GetResponse(600);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response = CustomStatusResponse.GetResponse(500);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+
+        }
 
 
         [HttpPost("GetExclusiveProducts")]
@@ -328,7 +361,37 @@ namespace FYPAPI.Controllers
             }
         }
 
+        [HttpPost("GetColorsAndLayernameByID")]
+        public Response GetColorsAndLayernameByID(int id)
+        {
+            Response response = new Response();
+            try
+            {
 
+                var res = _service.GetColorsAndLayernameByID(id);
+                response = CustomStatusResponse.GetResponse(200);
+                if (res != null)
+                {
+                    response.Data = res;
+                }
+                return response;
+            }
+
+            catch (DbException ex)
+            {
+                response = CustomStatusResponse.GetResponse(600);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response = CustomStatusResponse.GetResponse(500);
+                // response.Token = TokenManager.GenerateToken(claimDTO);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+
+        }
 
 
 

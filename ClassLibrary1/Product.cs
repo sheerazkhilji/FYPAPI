@@ -44,6 +44,7 @@ namespace ClassLibrary1
         public int ProductId { get; set; }
 
         public string Type { get; set; }
+        public string GroupedColors { get; set; }
 
         public string LayerName { get; set; }
 
@@ -59,6 +60,49 @@ namespace ClassLibrary1
         public List<ProductModelColor> productModelColors { get; set; }
 
 
+    }
+
+
+
+    public class ProductPOCO
+    {
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
+        public float Price { get; set; }
+        public int Quantity { get; set; }
+        public int NumberOfStars { get; set; }
+        public int StoreId { get; set; }
+        public int CreatedBy { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public string ProductDes { get; set; }
+        public string ProductModelpath { get; set; }
+
+        public string ProductImage { get; set; }
+
+
+    }
+
+    public class ProductModelColorPOCO
+    {
+  
+        public string GroupedColors { get; set; }
+
+        public string LayerName { get; set; }
+
+
+
+    }
+
+
+    public class SpecialProductObject
+    {
+
+        public List<ProductPOCO> ProductPOCO { get; set; }
+        public List<ProductModelColorPOCO> ProductModelColorPOCO { get; set; }
     }
 
 }

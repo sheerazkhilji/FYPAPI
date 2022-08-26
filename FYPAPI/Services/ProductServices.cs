@@ -87,6 +87,7 @@ namespace FYPAPI.Services
 
             return product;
         }
+     
 
         public Shop GetShopDate()
         {
@@ -105,6 +106,22 @@ namespace FYPAPI.Services
 
         }
 
-        
+        public object GetColorsAndLayernameByID(int id)
+        {
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@productId", id, DbType.Int32, ParameterDirection.Input);
+
+            var data = _dapper.GetMultipleObjects(@"[dbo].[GetColorsAndLayernameByID]", parameters, gr => gr.Read<ProductPOCO>(), gr => gr.Read<ProductModelColorPOCO>());
+
+            SpecialProductObject obj = new SpecialProductObject();
+
+            obj.ProductPOCO = data.Item1.ToList();
+            obj.ProductModelColorPOCO = data.Item2.ToList();
+
+            return obj;
+
+        }
+
     }
 }
