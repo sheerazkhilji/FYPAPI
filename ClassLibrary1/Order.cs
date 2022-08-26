@@ -69,6 +69,13 @@ namespace ClassLibrary1
 
         public string UserEmail { get; set; }
 
+
+        public DateTime CreatedOn { get; set; }
+
+        public string StoreName { get; set; }
+
+        public string VendorName { get; set; }
+
     }
 
 

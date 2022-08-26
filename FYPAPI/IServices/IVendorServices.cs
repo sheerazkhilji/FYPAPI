@@ -1,4 +1,5 @@
 ﻿using ClassLibrary;
+using ClassLibrary1;
 using System.Collections.Generic;
 
 namespace API.IServices
@@ -24,6 +25,8 @@ namespace API.IServices
         int DeleteVendor(int id);
 
          int ActiveInActiveVendor(int id);
+        DashBoardModel GetVendordashboardData(int id);
+
 
     }
 }

@@ -3,6 +3,7 @@ using ClassLibrary1;
 using Dapper;
 using FYPAPI.IServices;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace FYPAPI.Services
@@ -46,6 +47,23 @@ namespace FYPAPI.Services
 
 
 
+
+        }
+
+        public List<OrderUserId> GetOrdersList()
+        {
+            DynamicParameters parameters = new DynamicParameters();
+          
+            return _dapper.GetAll<OrderUserId>(@"[dbo].[usp_Admin_GetOrderList]", parameters);
+        }
+
+        public List<OrderUserId> GetOrdersItemsByProductsIds(RequestParameters obj)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@StoreName", obj.StoreName, DbType.String, ParameterDirection.Input);
+            parameters.Add("@OrderId", obj.OrderId, DbType.Int32, ParameterDirection.Input);
+
+            return _dapper.GetAll<OrderUserId>(@"[dbo].[usp_Admin_getOrderProdcutsByUserId]", parameters);
 
         }
     }

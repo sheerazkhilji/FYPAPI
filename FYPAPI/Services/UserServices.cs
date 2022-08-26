@@ -87,5 +87,19 @@ namespace API.Services
             parameters.Add("@profilepic", obj.PorfileImgPath, DbType.String, ParameterDirection.Input);
             return _dapper.Insert<int>(@"[dbo].[usp_UpdateProfile]", parameters);
         }
+
+        public int Deletecustomer(int id)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@UserId", id, DbType.Int32, ParameterDirection.Input);
+            return _dapper.Update<int>(@"[dbo].[usp_DeleteCustomer]", parameters);
+        }
+
+        public int ActiveInActivecustomer(int id)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Id", id, DbType.Int32, ParameterDirection.Input);
+            return _dapper.Update<int>(@"[dbo].[usp_ActiveInActiveCustomer]", parameters);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using API.Utilites;
 using ClassLibrary;
+using ClassLibrary1;
 using FYPAPI.IServices;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +17,7 @@ namespace FYPAPI.Controllers
         public AdminDashBoardController(IDashboardServices services)
         {
             _services = services;
-
-            
+           
         }
 
 
@@ -68,6 +68,89 @@ namespace FYPAPI.Controllers
         }
 
 
+
+
+        [HttpPost("GetOrdersList")]
+        public Response GetOrdersList()
+        {
+            UserManagement user = null;
+            Response response = new Response();
+            try
+            {
+                user = TokenManager.GetValidateToken(Request);
+                if (user == null) return CustomStatusResponse.GetResponse(401);
+
+
+                var res = _services.GetOrdersList();
+
+
+
+
+                response = CustomStatusResponse.GetResponse(200);
+                if (res != null)
+                {
+
+
+
+
+                    response.Data = res;
+                }
+                return response;
+            }
+
+            catch (DbException ex)
+            {
+                response = CustomStatusResponse.GetResponse(600);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response = CustomStatusResponse.GetResponse(500);
+                // response.Token = TokenManager.GenerateToken(claimDTO);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+
+        }
+
+
+
+        [HttpPost("GetOrdersItemsByProductsIds")]
+        public Response GetOrdersItemsByProductsIds(RequestParameters obj)
+        {
+            UserManagement user = null;
+            Response response = new Response();
+            try
+            {
+                user = TokenManager.GetValidateToken(Request);
+                if (user == null) return CustomStatusResponse.GetResponse(401);
+                
+
+                var res = _services.GetOrdersItemsByProductsIds(obj);
+                response = CustomStatusResponse.GetResponse(200);
+                if (res != null)
+                {
+                    response.Data = res;
+                }
+                return response;
+            }
+
+            catch (DbException ex)
+            {
+                response = CustomStatusResponse.GetResponse(600);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response = CustomStatusResponse.GetResponse(500);
+                // response.Token = TokenManager.GenerateToken(claimDTO);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+
+        }
 
 
 
