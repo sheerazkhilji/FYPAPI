@@ -68,8 +68,13 @@ namespace ClassLibrary1
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; }
+        public string UserName { get; set; }
+        public DateTime ReviewDate { get; set; }
         public string CategoryName { get; set; }
         public int CategoryId { get; set; }
+        public int StarPercentage { get; set; }
+        public int Indv_StarPercentage { get; set; }
+        public int TotalNumberOfStars { get; set; }
         public float Price { get; set; }
         public int Quantity { get; set; }
         public int NumberOfStars { get; set; }
