@@ -88,6 +88,7 @@ namespace ClassLibrary1
 
         public string ProductImage { get; set; }
 
+        public string Comments { get; set; }
 
     }
 
@@ -109,5 +110,21 @@ namespace ClassLibrary1
         public List<ProductPOCO> ProductPOCO { get; set; }
         public List<ProductModelColorPOCO> ProductModelColorPOCO { get; set; }
     }
+
+
+    public class ProductsReviews
+    {
+
+
+        public int UserId { get; set; }
+
+        public int ProductId { get; set; }
+        public int NumberOfStars { get; set; }
+
+        public string Comments { get; set; }
+
+    }
+         
+
 
 }

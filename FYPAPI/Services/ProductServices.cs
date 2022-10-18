@@ -123,5 +123,16 @@ namespace FYPAPI.Services
 
         }
 
+        public int AddReview(ProductsReviews obj)
+        {
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@UserId", obj.UserId, DbType.Int32, ParameterDirection.Input);
+            parameters.Add("@ProductId", obj.ProductId, DbType.Int32, ParameterDirection.Input);
+            parameters.Add("@NumberOfStars", obj.NumberOfStars, DbType.Int32, ParameterDirection.Input);
+            parameters.Add("@Comments", obj.Comments, DbType.String, ParameterDirection.Input);
+
+            return _dapper.Insert<int>(@"[dbo].[usp_AddProductReview]", parameters);
+        }
     }
 }
