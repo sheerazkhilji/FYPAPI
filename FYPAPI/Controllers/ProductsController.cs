@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace FYPAPI.Controllers
@@ -196,6 +197,24 @@ namespace FYPAPI.Controllers
             {
 
                 var res = _service.GetExclusiveProducts();
+              
+                for (int i = 0; i < res.Count; i++)
+                {
+                    if (res[i].ProductRatingPer!= "[{}]")
+                    {
+                        var rc = JsonSerializer.Deserialize<List<DeserializeProductrating>>(res[i].ProductRatingPer);
+                        res[i].ProductRating = rc[0].NumberOfStars;
+
+                    }
+
+
+
+                }
+
+
+
+
+
                 response = CustomStatusResponse.GetResponse(200);
                 if (res != null)
                 {

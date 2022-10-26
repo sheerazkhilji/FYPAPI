@@ -32,10 +32,17 @@ namespace ClassLibrary1
         public int ProductRating { get; set; }
         public int Ratingcount { get; set; }
 
+        public string ProductRatingPer { get; set; }
+
         public float Revenue { get; set; }
 
     }
 
+  public  class DeserializeProductrating
+    {
+        public int NumberOfStars { get; set; }
+
+    }
 
     public  class ProductModelColor
     {
