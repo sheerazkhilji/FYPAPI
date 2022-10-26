@@ -101,5 +101,25 @@ namespace API.Services
             parameters.Add("@Id", id, DbType.Int32, ParameterDirection.Input);
             return _dapper.Update<int>(@"[dbo].[usp_ActiveInActiveCustomer]", parameters);
         }
+
+        public CodeVerification ForgotPassword(CodeVerification obj) 
+        { 
+            DynamicParameters parameters = new DynamicParameters(); 
+            parameters.Add("@Email", obj.Email == null ? "" : obj.Email, DbType.String, ParameterDirection.Input); 
+            var data = _dapper.Get<CodeVerification>(@"[dbo].[ForgotPassword]", parameters); 
+            return data; 
+        }
+
+        public object ResetPassword(CodeVerification obj)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@VerifyCode", obj.VerifyCode, DbType.String, ParameterDirection.Input);
+            parameters.Add("@Email", obj.Email, DbType.String, ParameterDirection.Input);
+            parameters.Add("@Password", Secure.EncryptData(obj.Password), DbType.String, ParameterDirection.Input);
+            var data = _dapper.Insert<CodeVerification>(@"[dbo].[usp_ResetPassword]", parameters);
+            return data;
+        }
+
+
     }
 }

@@ -59,9 +59,6 @@ namespace ClassLibrary
 
     }
 
-
-
-
     public  class Vendor : UserManagement
     {
         public int StoreId { get; set; }
@@ -81,6 +78,13 @@ namespace ClassLibrary
         public string Password { get; set; }
 
 
+    }
+
+    public class CodeVerification { 
+        public int Id { get; set; } 
+        public string Email { get; set; } 
+        public string VerifyCode { get; set; } 
+        public string Password { get; set; } 
     }
 
 

@@ -25,5 +25,10 @@ namespace API.IServices
 
         int ActiveInActivecustomer(int id);
 
+        CodeVerification ForgotPassword(CodeVerification obj);
+
+        object ResetPassword(CodeVerification obj);
+
+
     }
 }

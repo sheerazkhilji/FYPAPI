@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Data.Common;
+using System.Net.Mail;
+using System.Text;
+
 
 namespace API.Controllers
 {
@@ -312,7 +315,7 @@ namespace API.Controllers
 
         }
 
-            [HttpPost("Deletecustomer/{id}")]
+        [HttpPost("Deletecustomer/{id}")]
         public Response Deletecustomer(int id)
         {
             UserManagement user = null;
@@ -346,6 +349,93 @@ namespace API.Controllers
                 return response;
             }
 
+        }
+
+        [HttpPost("ForgotPassword")]
+        public Response ForgotPassword(CodeVerification obj)
+        {
+            Response response = new Response(); try
+            {
+                //obj.Email = HttpContext.Request.Form["Email"].FirstOrDefault(); 
+                var res = _service.ForgotPassword(obj); 
+                response = CustomStatusResponse.GetResponse(200); 
+                if (res != null)
+                    {
+                        response.Data = res.Email; 
+                        response.ResponseMsg = "Link to rest your password has been sent to the registered email.";
+
+
+                        string to = res.Email;//To address
+                        string from = "muhammadtalhashaikh24@gmail.com"; //From address
+                        MailMessage message = new MailMessage(from, to);
+                        string mailbody = "Your Verification Code is " + res.VerifyCode;
+                        message.Subject = "Reset Password";
+                        message.Body = mailbody;
+                        message.BodyEncoding = Encoding.UTF8;
+                        message.IsBodyHtml = true;
+                        SmtpClient client = new SmtpClient("smtp.gmail.com", 587); //Gmail smtp
+                        System.Net.NetworkCredential basicCredential1 = new
+                        System.Net.NetworkCredential("muhammadtalhashaikh24@gmail.com", "jdnxvkpnhmjkpaht");
+                        client.EnableSsl = true;
+                        client.UseDefaultCredentials = false;
+                        client.Credentials = basicCredential1;
+                        try
+                        {
+                            client.Send(message);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw ex;
+                        }
+                    }
+                return response;
+            }
+            catch (DbException ex)
+            {
+                response = CustomStatusResponse.GetResponse(600);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response = CustomStatusResponse.GetResponse(500);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+        }
+
+        [HttpPost("ResetPassword")]
+        public Response ResetPassword(CodeVerification obj)
+        {
+            Response response = new Response();
+            try
+            {
+                //obj.VerifyCode = obj.VerifyCode.FirstOrDefault();
+                //obj.Email = HttpContext.Request.Form["Email"].FirstOrDefault();
+                //obj.Password = HttpContext.Request.Form["Password"].FirstOrDefault();
+                var res = _service.ResetPassword(obj);
+                response = CustomStatusResponse.GetResponse(200);
+                if (res != null)
+                {
+                    #region Set New Entry In Cache
+                    #endregion
+                    response.Data = res;
+                    response.ResponseMsg = "Password changed Successfuly!";
+                }
+                return response;
+            }
+            catch (DbException ex)
+            {
+                response = CustomStatusResponse.GetResponse(600);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response = CustomStatusResponse.GetResponse(500);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
         }
 
 
