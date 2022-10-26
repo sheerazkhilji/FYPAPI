@@ -18,6 +18,10 @@ namespace FYPAPI.IServices
         Shop GetShopDate();
 
 
+        int AddReview(ProductsReviews obj);
+
+
+
 
     }
 }

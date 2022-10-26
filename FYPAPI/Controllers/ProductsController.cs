@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace FYPAPI.Controllers
@@ -196,6 +197,24 @@ namespace FYPAPI.Controllers
             {
 
                 var res = _service.GetExclusiveProducts();
+              
+                for (int i = 0; i < res.Count; i++)
+                {
+                    if (res[i].ProductRatingPer!= "[{}]")
+                    {
+                        var rc = JsonSerializer.Deserialize<List<DeserializeProductrating>>(res[i].ProductRatingPer);
+                        res[i].ProductRating = rc[0].NumberOfStars;
+
+                    }
+
+
+
+                }
+
+
+
+
+
                 response = CustomStatusResponse.GetResponse(200);
                 if (res != null)
                 {
@@ -392,6 +411,45 @@ namespace FYPAPI.Controllers
             }
 
         }
+
+
+        [HttpPost("AddProductsReviews")]
+        public Response AddProductsReviews(ProductsReviews obj)
+        {
+            UserManagement user = null;
+            Response response = new Response();
+            try
+            {
+                user = TokenManager.GetValidateToken(Request);
+                if (user == null) return CustomStatusResponse.GetResponse(401);
+
+                obj.UserId = user.UserId;
+
+                var res = _service.AddReview(obj);
+                response = CustomStatusResponse.GetResponse(200);
+                if (res >0)
+                {
+                    response.Data = res;
+                }
+                return response;
+            }
+
+            catch (DbException ex)
+            {
+                response = CustomStatusResponse.GetResponse(600);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response = CustomStatusResponse.GetResponse(500);
+                // response.Token = TokenManager.GenerateToken(claimDTO);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+
+        }
+
 
 
 
