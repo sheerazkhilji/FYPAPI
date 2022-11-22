@@ -37,6 +37,9 @@ namespace ClassLibrary1
 
         public string Address { get; set; }
 
+
+        public List<PurchasedProductsColor> productsColors { get; set; }
+
     }
 
 

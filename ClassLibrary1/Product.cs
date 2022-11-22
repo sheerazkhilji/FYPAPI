@@ -106,6 +106,7 @@ namespace ClassLibrary1
 
         public string LayerName { get; set; }
 
+        public string ProductModelColorId { get; set; }
 
 
     }
@@ -132,6 +133,16 @@ namespace ClassLibrary1
 
     }
          
+    public  class PurchasedProductsColor
+    {
+
+        public string color { get; set; }
+
+        public string layername { get; set; }
+
+        public int productid { get; set; }
+
+    }
 
 
 }

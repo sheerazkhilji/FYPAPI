@@ -2,6 +2,7 @@
 using ClassLibrary1;
 using Dapper;
 using FYPAPI.IServices;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -21,6 +22,21 @@ namespace FYPAPI.Services
       
         public List<OrderSlip> PlaceOrder(Order obj)
         {
+            var table1 = new DataTable();
+            table1.Columns.Add("Color", typeof(string));
+            table1.Columns.Add("ProductId", typeof(string));
+       
+
+            foreach (var item in obj.productsColors)
+            {
+                var row = table1.NewRow();
+                row["Color"] = Convert.ToInt32(item.color);
+                row["ProductId"] = Convert.ToInt32(item.productid);
+              
+
+                table1.Rows.Add(row);
+            }
+
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@ProductId", obj.ProductsIds, DbType.String, ParameterDirection.Input);
             parameters.Add("@PaymentMethodType", obj.PaymentMethodType, DbType.Int32, ParameterDirection.Input);
@@ -31,6 +47,8 @@ namespace FYPAPI.Services
             parameters.Add("@Mobile", obj.MobileNumber, DbType.String, ParameterDirection.Input);
             parameters.Add("@City", obj.CityName, DbType.String, ParameterDirection.Input);
             parameters.Add("Address", obj.Address, DbType.String, ParameterDirection.Input);
+
+            parameters.Add("@type_PurchedProductColors", table1.AsTableValuedParameter("dbo.type_PurchedProductColors"));
             return _dapper.GetAll<OrderSlip>(@"[dbo].[usp_OrderPlace]", parameters);
 
         }
