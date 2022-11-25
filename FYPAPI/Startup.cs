@@ -44,7 +44,9 @@ namespace FYPAPI
                 {
                     //builder.WithOrigins("*").WithHeaders("*").WithMethods("*");
 
-                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    builder.AllowAnyOrigin()
+                    .AllowAnyMethod().
+                    AllowAnyHeader().WithExposedHeaders("content-disposition");
 
                 }
                     );
@@ -69,6 +71,7 @@ namespace FYPAPI
             services.AddTransient<IProductServices, ProductServices>();
             services.AddTransient<IorderServices, orderServices>();
             services.AddTransient<IDashboardServices, DashboardServices>();
+  
 
 
 

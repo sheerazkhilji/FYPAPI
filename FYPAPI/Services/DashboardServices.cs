@@ -66,5 +66,69 @@ namespace FYPAPI.Services
             return _dapper.GetAll<OrderUserId>(@"[dbo].[usp_Admin_getOrderProdcutsByUserId]", parameters);
 
         }
+
+
+        public int AddProductModelPics(ProductModelServices obj)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Note", obj.Note, DbType.String, ParameterDirection.Input);
+            parameters.Add("@CreatedBy", obj.CreatedBy, DbType.Int32, ParameterDirection.Input);
+            parameters.Add("@ModelImages", obj.ProductModelImages, DbType.String, ParameterDirection.Input);
+
+            return _dapper.Insert<int>(@"[dbo].[usp_AddProductModel]", parameters);
+
+
+        }
+
+
+        public int UploadServiceModel(ProductModelServices obj)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@ModelPath", obj.ModelPath, DbType.String, ParameterDirection.Input);
+            parameters.Add("@ProductModelServiceID", obj.ProductModelServiceID, DbType.Int32, ParameterDirection.Input);
+        
+            return _dapper.Insert<int>(@"[dbo].[usp_UploadServiceModel]", parameters);
+
+
+        }
+        public List<ProductModelServices> GetAllProductModelServices()
+        {
+            DynamicParameters parameters = new DynamicParameters();
+          
+            return _dapper.GetAll<ProductModelServices>(@"[dbo].[usp_GetAllProductModelServices]", parameters);
+
+
+        } 
+        public int ProductModelServicesDelete(int id)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@id", id, DbType.Int32, ParameterDirection.Input);
+
+            return _dapper.Update<int>(@"[dbo].[usp_ProductModelServicesDelete]", parameters);
+
+
+        }
+        public List<ProductModelServices> GetAllProductModelServicesbycustomer(int id)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@id", id, DbType.Int32, ParameterDirection.Input);
+
+            return _dapper.GetAll<ProductModelServices>(@"[dbo].[usp_GetAllProductModelServicesbycustomer]", parameters);
+
+
+        }
+
+        public List<string> GetAllProductServiceModelPics(int id)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@Fk_ProductModelServiceID", id, DbType.String, ParameterDirection.Input);
+
+            return _dapper.GetAll<string>(@"[dbo].[usp_getAllProductServiceModelPics]", parameters);
+
+
+        }
+
+
+
     }
 }
