@@ -27,7 +27,6 @@ namespace ClassLibrary1
 
         public DateTime createdOn { get; set; }
 
-
         public List<ProductModelColor> productModelColors { get; set; }
         public int ProductRating { get; set; }
         public int Ratingcount { get; set; }
@@ -35,10 +34,15 @@ namespace ClassLibrary1
         public string ProductRatingPer { get; set; }
 
         public float Revenue { get; set; }
-
     }
-
-  public  class DeserializeProductrating
+    public class Categories
+    {
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
+        public string CategoryImage { get; set; }
+       
+    }
+    public  class DeserializeProductrating
     {
         public int NumberOfStars { get; set; }
 

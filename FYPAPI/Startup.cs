@@ -1,6 +1,7 @@
 using API.DBManager;
 using API.IServices;
 using API.Services;
+using ClassLibrary1;
 using FYPAPI.IServices;
 using FYPAPI.Services;
 using Microsoft.AspNetCore.Builder;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +59,7 @@ namespace FYPAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FYPAPI", Version = "v1" });
             });
+            StripeConfiguration.ApiKey = Configuration.GetValue<string>("StripeSettings:SecretKey");
 
 
             services.AddTransient<IDapper, Dapperr>();
@@ -71,8 +74,11 @@ namespace FYPAPI
             services.AddTransient<IProductServices, ProductServices>();
             services.AddTransient<IorderServices, orderServices>();
             services.AddTransient<IDashboardServices, DashboardServices>();
-  
 
+            services.AddTransient<CustomerService>()
+                .AddTransient<ChargeService>()
+                .AddTransient<TokenService>()
+                .AddTransient<IStripeAppService, StripeAppService>();
 
 
 
