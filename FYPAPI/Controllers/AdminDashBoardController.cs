@@ -2,17 +2,20 @@
 using ClassLibrary;
 using ClassLibrary1;
 using FYPAPI.IServices;
+using FYPAPI.PaymentHelper;
 using ICSharpCode.SharpZipLib.Zip;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FYPAPI.Controllers
@@ -23,10 +26,11 @@ namespace FYPAPI.Controllers
     {
         public readonly IDashboardServices _services;
 
-
         public readonly IWebHostEnvironment _environment;
 
         public readonly IConfiguration _configuration;
+
+        private readonly IStripeAppService _stripeService;
 
         public AdminDashBoardController(IDashboardServices services, IWebHostEnvironment environment, IConfiguration configuration)
         {
@@ -169,9 +173,13 @@ namespace FYPAPI.Controllers
 
         }
 
+
         [HttpPost("ProductModelServices")]
         public async Task<Response> ProductModelServices(IList<IFormFile> files)
         {
+            
+
+            
             UserManagement user = null;
             Response response = null;
             try
@@ -179,7 +187,48 @@ namespace FYPAPI.Controllers
                 user = TokenManager.GetValidateToken(Request);
                 if (user == null) return CustomStatusResponse.GetResponse(401);
 
+
+
+
+
+                CancellationToken ct = new CancellationToken();
+
+                CreditCard obj = new CreditCard();
+
+                obj.ExpirationYear = Request.Form["expiryDate"].FirstOrDefault().ToString().Split(",")[0];
+                obj.ExpirationMonth = Request.Form["expiryDate"].FirstOrDefault().ToString().Split(",")[1];
+                obj.CardNumber = Request.Form["cardNumber"].FirstOrDefault();
+                obj.CVC = Request.Form["cvc"].FirstOrDefault();
+                
+
+
+
+            //    AddStripeCardForModelService objs = new AddStripeCardForModelService(Request.Form["nameOnCard"], Request.Form["emailCC"], obj);
+
+              //  StripeCustomer createdCustomer = await _stripeService.AddStripeCustomerAsyncformodelservice(objs, ct);
+
+
                 ProductModelServices modelServices = new ProductModelServices();
+
+
+                //User userss = new User
+                //{
+                //    Email = "yoourmail@gmail.com",
+                //    Name = "Christian Schou",
+                //    CreditCard = new CreditCard
+                //    {
+                //        Name = "Christian Schou",
+                //        CardNumber = "4242424242424242",
+                //        ExpirationYear = "2024",
+                //        ExpirationMonth = "12",
+                //        CVC = "999"
+                //    }
+                //};
+
+
+
+
+           
 
                 modelServices.Note = Request.Form["note"];
 
@@ -203,9 +252,9 @@ namespace FYPAPI.Controllers
                         await file.CopyToAsync(stream);
                     }
 
-                   
 
-                    modelServices.ProductModelImages  +=_configuration.GetSection("APIURL").Value.ToString() + mypath + fileName + extension + ",";
+
+                    modelServices.ProductModelImages += _configuration.GetSection("APIURL").Value.ToString() + mypath + fileName + extension + ",";
 
 
 
@@ -214,13 +263,13 @@ namespace FYPAPI.Controllers
 
                 }
                 modelServices.CreatedBy = user.UserId;
-                modelServices.ProductModelImages= modelServices.ProductModelImages.Remove(modelServices.ProductModelImages.LastIndexOf(','), 1);
+                modelServices.ProductModelImages = modelServices.ProductModelImages.Remove(modelServices.ProductModelImages.LastIndexOf(','), 1);
                 _services.AddProductModelPics(modelServices);
                 response = new Response
                 {
                     ResponseMsg = "Request Successful!",
                     Status = 200,
-              
+
                     Token = null
                 };
 

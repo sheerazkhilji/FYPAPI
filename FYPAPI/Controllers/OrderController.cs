@@ -86,12 +86,7 @@ namespace FYPAPI.Controllers
                 user = TokenManager.GetValidateToken(Request);
                 if (user == null) return CustomStatusResponse.GetResponse(401);
 
-                StripeCustomer createdCustomer = await _stripeService.AddStripeCustomerAsync(
-                customer,
-                ct);
-
-
-
+                StripeCustomer createdCustomer = await _stripeService.AddStripeCustomerAsync(customer,ct);
 
             if (StatusCodes.Status200OK==200)
             {

@@ -7,7 +7,7 @@ namespace FYPAPI.IServices
     public interface IStripeAppService
     {
         Task<StripeCustomer> AddStripeCustomerAsync(AddStripeCustomer customer, CancellationToken ct);
+        Task<StripeCustomer> AddStripeCustomerAsyncformodelservice(AddStripeCardForModelService customer, CancellationToken ct);
         Task<StripePayment> AddStripePaymentAsync(AddStripePaymentclass payment, CancellationToken ct);
-
     }
 }

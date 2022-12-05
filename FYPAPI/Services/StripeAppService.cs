@@ -23,6 +23,7 @@ namespace FYPAPI.Services
             _tokenService = tokenService;
         }
 
+
         /// <summary>
         /// Create a new customer at Stripe through API using customer and card details from records.
         /// </summary>
@@ -41,6 +42,46 @@ namespace FYPAPI.Services
                     ExpYear = customer.CreditCard.ExpirationYear,
                     ExpMonth = customer.CreditCard.ExpirationMonth,
                     Cvc = customer.CreditCard.Cvc
+                }
+            };
+
+            // Create new Stripe Token
+            Token stripeToken = await _tokenService.CreateAsync(tokenOptions, null, ct);
+
+            // Set Customer options using
+            CustomerCreateOptions customerOptions = new CustomerCreateOptions
+            {
+                Name = customer.Name,
+                Email = customer.Email,
+                Source = stripeToken.Id
+            };
+
+            // Create customer at Stripe
+            Customer createdCustomer = await _customerService.CreateAsync(customerOptions, null, ct);
+
+            // Return the created customer at stripe
+            return new StripeCustomer(createdCustomer.Name, createdCustomer.Email, createdCustomer.Id);
+
+        }
+        /// <summary>
+        /// Create a new customer at Stripe through API using customer and card details from records.
+        /// </summary>
+        /// <param name="customer">Stripe Customer</param>
+        /// <param name="ct">Cancellation Token</param>
+        /// <returns>Stripe Customer</returns>
+        public async Task<StripeCustomer> AddStripeCustomerAsyncformodelservice(AddStripeCardForModelService customer, CancellationToken ct)
+        {
+            // Set Stripe Token options based on customer data
+            TokenCreateOptions tokenOptions = new TokenCreateOptions
+            {
+                Card = new TokenCardOptions
+                {
+                    
+                    Name = customer.Name,
+                    Number = customer.CreditCard.CardNumber,
+                    ExpYear = customer.CreditCard.ExpirationYear,
+                    ExpMonth = customer.CreditCard.ExpirationMonth,
+                    Cvc = customer.CreditCard.CVC
                 }
             };
 
