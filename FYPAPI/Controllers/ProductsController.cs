@@ -365,7 +365,6 @@ namespace FYPAPI.Controllers
         }
 
 
-
         [HttpPost]
         [Route("ModelUpload")]
         public async Task<Response> ModelUpload(IList<IFormFile> files, string filetype)

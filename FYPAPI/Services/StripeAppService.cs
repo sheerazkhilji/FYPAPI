@@ -71,6 +71,8 @@ namespace FYPAPI.Services
         /// <returns>Stripe Customer</returns>
         public async Task<StripeCustomer> AddStripeCustomerAsyncformodelservice(AddStripeCardForModelService customer, CancellationToken ct)
         {
+           
+
             // Set Stripe Token options based on customer data
             TokenCreateOptions tokenOptions = new TokenCreateOptions
             {
@@ -78,10 +80,10 @@ namespace FYPAPI.Services
                 {
                     
                     Name = customer.Name,
-                    Number = customer.CreditCard.CardNumber,
-                    ExpYear = customer.CreditCard.ExpirationYear,
-                    ExpMonth = customer.CreditCard.ExpirationMonth,
-                    Cvc = customer.CreditCard.CVC
+                    Number = customer.CardNumber,
+                    ExpYear = customer.ExpirationYear,
+                    ExpMonth = customer.ExpirationMonth,
+                    Cvc = customer.CVC
                 }
             };
 
@@ -91,7 +93,7 @@ namespace FYPAPI.Services
             // Set Customer options using
             CustomerCreateOptions customerOptions = new CustomerCreateOptions
             {
-                Name = customer.Name,
+                Name =customer.Name,
                 Email = customer.Email,
                 Source = stripeToken.Id
             };

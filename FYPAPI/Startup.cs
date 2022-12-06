@@ -6,6 +6,7 @@ using FYPAPI.IServices;
 using FYPAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
@@ -37,7 +38,17 @@ namespace FYPAPI
 
             services.AddControllers();
 
+            services.Configure<IISServerOptions>(options => {
+                options.MaxRequestBodySize = int.MaxValue;
+            });
 
+            services.Configure<FormOptions>(x =>
+            {
+                x.ValueLengthLimit = int.MaxValue;
+                x.MultipartBodyLengthLimit = int.MaxValue;
+                x.BufferBodyLengthLimit = int.MaxValue;
+                x.MultipartBoundaryLengthLimit = int.MaxValue;
+            });
 
 
             services.AddCors(options =>

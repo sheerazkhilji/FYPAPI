@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
+
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -32,9 +32,11 @@ namespace FYPAPI.Controllers
 
         private readonly IStripeAppService _stripeService;
 
-        public AdminDashBoardController(IDashboardServices services, IWebHostEnvironment environment, IConfiguration configuration)
+        public AdminDashBoardController(IDashboardServices services, IWebHostEnvironment environment, IConfiguration configuration, IStripeAppService stripeAppService)
         {
             _services = services;
+            _stripeService = stripeAppService;
+
 
             _environment = environment;
             _configuration = configuration;
@@ -189,46 +191,42 @@ namespace FYPAPI.Controllers
 
 
 
+                AddStripeCardForModelService objs = new AddStripeCardForModelService();
+
+                objs.ExpirationYear = Request.Form["expiryDate"].FirstOrDefault().ToString().Split(",")[0];
+                objs.ExpirationMonth = Request.Form["expiryDate"].FirstOrDefault().ToString().Split(",")[1];
+                objs.CardNumber = Request.Form["cardNumber"].FirstOrDefault();
+                objs.CVC = Request.Form["cvc"].FirstOrDefault();
+                objs.Email = Request.Form["emailCC"].FirstOrDefault();
+                objs.Name = Request.Form["nameOnCard"].FirstOrDefault();
+
+
 
 
                 CancellationToken ct = new CancellationToken();
 
-                CreditCard obj = new CreditCard();
-
-                obj.ExpirationYear = Request.Form["expiryDate"].FirstOrDefault().ToString().Split(",")[0];
-                obj.ExpirationMonth = Request.Form["expiryDate"].FirstOrDefault().ToString().Split(",")[1];
-                obj.CardNumber = Request.Form["cardNumber"].FirstOrDefault();
-                obj.CVC = Request.Form["cvc"].FirstOrDefault();
-                
 
 
 
-            //    AddStripeCardForModelService objs = new AddStripeCardForModelService(Request.Form["nameOnCard"], Request.Form["emailCC"], obj);
+                StripeCustomer createdCustomer = await _stripeService.AddStripeCustomerAsyncformodelservice(objs,ct);
 
-              //  StripeCustomer createdCustomer = await _stripeService.AddStripeCustomerAsyncformodelservice(objs, ct);
+
+                if (StatusCodes.Status200OK == 200)
+                {
+
+                    PaymentMethod pay = new PaymentMethod(_stripeService);
+
+                    AddStripePaymentclass a = new AddStripePaymentclass(createdCustomer.CustomerId, createdCustomer.Email, "Test", "USD", 100*100);
+
+
+                    object stripeObj = await pay.AddStripePayment(a, ct);
+
+
+                }
+
 
 
                 ProductModelServices modelServices = new ProductModelServices();
-
-
-                //User userss = new User
-                //{
-                //    Email = "yoourmail@gmail.com",
-                //    Name = "Christian Schou",
-                //    CreditCard = new CreditCard
-                //    {
-                //        Name = "Christian Schou",
-                //        CardNumber = "4242424242424242",
-                //        ExpirationYear = "2024",
-                //        ExpirationMonth = "12",
-                //        CVC = "999"
-                //    }
-                //};
-
-
-
-
-           
 
                 modelServices.Note = Request.Form["note"];
 

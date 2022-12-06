@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -116,16 +117,14 @@ namespace ClassLibrary1
         public string Email { get; set; }
 
 		public string Name { get; set; }
-		public CreditCard CreditCard { get; set; }
 
 
+		public string CardNumber { get; set; }
+		public string ExpirationYear { get; set; }
+		public string ExpirationMonth { get; set; }
+		public string CVC { get; set; }
 
-		public AddStripeCardForModelService(string email, string name, CreditCard creditCard)
-        {
-            Email = email;
-            Name = name;
-            CreditCard = creditCard;
-        }
+        public string note { get; set; }
     }			  
 		  
 
