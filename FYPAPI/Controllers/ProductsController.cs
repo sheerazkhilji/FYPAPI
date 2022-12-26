@@ -153,7 +153,46 @@ namespace FYPAPI.Controllers
             }
 
         }
-        
+
+
+        [HttpPost("Active_IsActive_Product/{id}")]
+        public Response Active_IsActive_Product(int id)
+        {
+            UserManagement user = null;
+            Response response = new Response();
+            try
+            {
+                user = TokenManager.GetValidateToken(Request);
+                if (user == null) return CustomStatusResponse.GetResponse(401);
+
+
+
+                var res = _service.Active_IsActive_Product(id);
+                response = CustomStatusResponse.GetResponse(200);
+                if (res >0)
+                {
+                    response.Data = res;
+                }
+                return response;
+            }
+
+            catch (DbException ex)
+            {
+                response = CustomStatusResponse.GetResponse(600);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response = CustomStatusResponse.GetResponse(500);
+                // response.Token = TokenManager.GenerateToken(claimDTO);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+
+        }
+
+
         [HttpPost("GetProductByIdForCustomer/{id}")]
         public Response GetProductByIdForCustomer(int id)
         {
@@ -366,7 +405,9 @@ namespace FYPAPI.Controllers
 
 
         [HttpPost]
+        
         [Route("ModelUpload")]
+        [RequestFormLimits(MultipartBodyLengthLimit = 104857600)]
         public async Task<Response> ModelUpload(IList<IFormFile> files, string filetype)
         {
             Response result = null;

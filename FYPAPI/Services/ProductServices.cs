@@ -118,13 +118,14 @@ namespace FYPAPI.Services
             DynamicParameters parameters = new DynamicParameters();
             parameters.Add("@productId", id, DbType.Int32, ParameterDirection.Input);
 
-            var data = _dapper.GetMultipleObjects(@"[dbo].[GetColorsAndLayernameByID]", parameters, gr => gr.Read<ProductPOCO>(), gr => gr.Read<ProductModelColorPOCO>());
+            var data = _dapper.GetMultipleObjects(@"[dbo].[GetColorsAndLayernameByID]", parameters, gr => gr.Read<ProductPOCO>(), gr => gr.Read<ProductModelColorPOCO>(), gr => gr.Read<UserManagement>());
 
             SpecialProductObject obj = new SpecialProductObject();
 
             obj.ProductPOCO = data.Item1.ToList();
             obj.ProductModelColorPOCO = data.Item2.ToList();
-
+          
+            obj.VendorInfo=data.Item3.FirstOrDefault(); 
             return obj;
 
         }
@@ -139,6 +140,19 @@ namespace FYPAPI.Services
             parameters.Add("@Comments", obj.Comments, DbType.String, ParameterDirection.Input);
 
             return _dapper.Insert<int>(@"[dbo].[usp_AddProductReview]", parameters);
+        }
+
+
+
+
+        public int Active_IsActive_Product(int id)
+        {
+
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@ProductId", id, DbType.Int32, ParameterDirection.Input);
+
+            return _dapper.Update<int>(@"[dbo].[usp_Active_IsActive_Product]", parameters);
+
         }
     }
 }

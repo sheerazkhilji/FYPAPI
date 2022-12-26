@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ClassLibrary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -121,6 +122,8 @@ namespace ClassLibrary1
 
         public List<ProductPOCO> ProductPOCO { get; set; }
         public List<ProductModelColorPOCO> ProductModelColorPOCO { get; set; }
+
+        public UserManagement VendorInfo { get; set; }
     }
 
 

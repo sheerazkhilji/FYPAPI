@@ -39,7 +39,7 @@ namespace FYPAPI
             services.AddControllers();
 
             services.Configure<IISServerOptions>(options => {
-                options.MaxRequestBodySize = int.MaxValue;
+                options.MaxRequestBodySize = 104857600;
             });
 
             services.Configure<FormOptions>(x =>

@@ -20,6 +20,7 @@ namespace FYPAPI.IServices
         int AddReview(ProductsReviews obj);
 
 
+         int Active_IsActive_Product(int id);
 
 
     }
