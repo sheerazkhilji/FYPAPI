@@ -79,11 +79,22 @@ namespace ClassLibrary1
 
         public string VendorName { get; set; }
 
+
+        public int Fk_OrderId { get; set; }
+
     }
 
 
 
-   
+    public class PurchedModelColor
+    {
+        public string LayerName { get; set; }
+        public string Color { get; set; }
+
+    }
+
+
+
 
 
 
@@ -135,6 +146,17 @@ namespace ClassLibrary1
 
 
 }
+
+
+    public class Parameter
+    {
+
+        public int ProductId { get; set; }
+        public int OrderId { get; set; }
+
+    }
+
+
 
 
 //public class Slip

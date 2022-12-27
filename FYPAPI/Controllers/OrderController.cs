@@ -240,6 +240,47 @@ namespace FYPAPI.Controllers
 
         }
 
+        [HttpPost("GetPurchedModelByOrderAndProductId")]
+        public Response GetPurchedModelByOrderAndProductId(Parameter obj)
+        {
+            UserManagement user = null;
+            Response response = new Response();
+            try
+            {
+                user = TokenManager.GetValidateToken(Request);
+                if (user == null) return CustomStatusResponse.GetResponse(401);
+                int userid = user.UserId;
+
+
+                var res = _services.GetPurchedModelByOrderAndProductId(obj);
+                response = CustomStatusResponse.GetResponse(200);
+                if (res != null)
+                {
+                    response.Data = res;
+                }
+                return response;
+            }
+
+            catch (DbException ex)
+            {
+                response = CustomStatusResponse.GetResponse(600);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response = CustomStatusResponse.GetResponse(500);
+                // response.Token = TokenManager.GenerateToken(claimDTO);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+
+        }
+
+
+
+
+
 
         [HttpPost("ChangeOrderStatus")]
         public Response ChangeOrderStatus(OrderUserId obj)

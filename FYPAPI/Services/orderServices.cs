@@ -70,6 +70,19 @@ namespace FYPAPI.Services
 
         }
 
+        public List<PurchedModelColor> GetPurchedModelByOrderAndProductId(Parameter obj)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add("@ProductId", obj.ProductId, DbType.Int32, ParameterDirection.Input);
+            parameters.Add("@OrderId", obj.OrderId, DbType.Int32, ParameterDirection.Input);
+
+            return _dapper.GetAll<PurchedModelColor>(@"[dbo].[usp_GetPurchedModelByOrderAndProductId]", parameters);
+
+        }
+
+
+
+
         public int ChangeOrderStatus(OrderUserId obj)
         {
             DynamicParameters parameters = new DynamicParameters();

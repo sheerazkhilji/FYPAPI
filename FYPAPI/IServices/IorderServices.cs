@@ -17,6 +17,7 @@ namespace FYPAPI.IServices
         public List<OrderSlip> OrderSlip();
 
         public Ordertracking Ordertracking(string ordernumber);
+        public List<PurchedModelColor> GetPurchedModelByOrderAndProductId(Parameter obj);
 
     }
 }
