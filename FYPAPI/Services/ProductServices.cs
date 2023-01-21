@@ -72,6 +72,13 @@ namespace FYPAPI.Services
           
             return _dapper.GetAll<Product>(@"[dbo].[usp_GetExclusiveProducts]", parameters);
         }
+        public List<Product> GetPopularProducts()
+        {
+            DynamicParameters parameters = new DynamicParameters();
+          
+            return _dapper.GetAll<Product>(@"[dbo].[usp_GetPopularProducts]", parameters);
+        }
+        
         public List<Categories> GetCategories()
         {
             DynamicParameters parameters = new DynamicParameters();

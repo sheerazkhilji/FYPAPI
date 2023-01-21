@@ -12,6 +12,7 @@ namespace FYPAPI.IServices
 
 
         List<Product> GetExclusiveProducts();
+         List<Product> GetPopularProducts();
 
         List<Categories> GetCategories();
         Shop GetShopDate();

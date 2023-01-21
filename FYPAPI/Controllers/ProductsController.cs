@@ -278,6 +278,54 @@ namespace FYPAPI.Controllers
 
         }
 
+        [HttpPost("GetPopularProducts")]
+        public Response GetPopularProducts()
+        {
+          
+            Response response = new Response();
+            try
+            {
+
+                var res = _service.GetPopularProducts();
+              
+                for (int i = 0; i < res.Count; i++)
+                {
+                    if (res[i].ProductRatingPer!= "[{}]")
+                    {
+                        var rc = JsonSerializer.Deserialize<List<DeserializeProductrating>>(res[i].ProductRatingPer);
+                        res[i].ProductRating = rc[0].NumberOfStars;
+
+                    }
+
+
+
+                }
+
+
+                response = CustomStatusResponse.GetResponse(200);
+                if (res != null)
+                {
+                    response.Data = res;
+                }
+                return response;
+            }
+
+            catch (DbException ex)
+            {
+                response = CustomStatusResponse.GetResponse(600);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response = CustomStatusResponse.GetResponse(500);
+                // response.Token = TokenManager.GenerateToken(claimDTO);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+
+        }
+
 
       
 
