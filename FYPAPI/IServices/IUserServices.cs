@@ -29,6 +29,8 @@ namespace API.IServices
 
         object ResetPassword(CodeVerification obj);
 
+        int VerifyAccountByCode(CodeVerification obj);
+
 
     }
 }

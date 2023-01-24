@@ -30,12 +30,40 @@ namespace API.Controllers
             {
 
 
-                var res = _service.Useregistration(obj);
+                var res =  _service.Useregistration(obj);
                 response = CustomStatusResponse.GetResponse(200);
                 if (res > 0)
                 {
+
+                    CodeVerification cn = new CodeVerification();
+                    cn.Email = obj.UserEmail;
+
+                    var ress = _service.ForgotPassword(cn);
                     response.Data = res;
                     response.ResponseMsg = "Please verify your account from your Email";
+
+                    string to = obj.UserEmail;//To address
+                    string from = "muhammadtalhashaikh24@gmail.com"; //From address
+                    MailMessage message = new MailMessage(cn.Email, to);
+                    string mailbody = "Your Activation code  is "+ress.VerifyCode;
+                    message.Subject = "Activation code";
+                    message.Body = mailbody;
+                    message.BodyEncoding = Encoding.UTF8;
+                    message.IsBodyHtml = true;
+                    SmtpClient client = new SmtpClient("smtp.gmail.com", 587); //Gmail smtp
+                    System.Net.NetworkCredential basicCredential1 = new
+                    System.Net.NetworkCredential("muhammadtalhashaikh24@gmail.com", "xumesdtylobsszks");
+                    client.EnableSsl = true;
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = basicCredential1;
+                    try
+                    {
+                        client.Send(message);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
                 }
                 return response;
             }
@@ -58,6 +86,7 @@ namespace API.Controllers
 
 
 
+     
         [HttpPost("GetAllCountries")]
         public Response GetAllCountries()
         {
@@ -375,7 +404,7 @@ namespace API.Controllers
                         message.IsBodyHtml = true;
                         SmtpClient client = new SmtpClient("smtp.gmail.com", 587); //Gmail smtp
                         System.Net.NetworkCredential basicCredential1 = new
-                        System.Net.NetworkCredential("muhammadtalhashaikh24@gmail.com", "jdnxvkpnhmjkpaht");
+                        System.Net.NetworkCredential("muhammadtalhashaikh24@gmail.com", "xumesdtylobsszks");
                         client.EnableSsl = true;
                         client.UseDefaultCredentials = false;
                         client.Credentials = basicCredential1;
@@ -421,6 +450,38 @@ namespace API.Controllers
                     #endregion
                     response.Data = res;
                     response.ResponseMsg = "Password changed Successfuly!";
+                }
+                return response;
+            }
+            catch (DbException ex)
+            {
+                response = CustomStatusResponse.GetResponse(600);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response = CustomStatusResponse.GetResponse(500);
+                response.ResponseMsg = ex.Message;
+                return response;
+            }
+        }
+
+
+        [HttpPost("VerifyAccountByCode")]
+        public Response VerifyAccountByCode(CodeVerification obj)
+        {
+            Response response = new Response();
+            try
+            {
+               var res = _service.VerifyAccountByCode(obj);
+                response = CustomStatusResponse.GetResponse(200);
+                if (res >0)
+                {
+                    #region Set New Entry In Cache
+                    #endregion
+                    response.Data = res;
+                    response.ResponseMsg = "Account Has Been Verified Please Login";
                 }
                 return response;
             }

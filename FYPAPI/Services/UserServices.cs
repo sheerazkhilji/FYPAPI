@@ -120,6 +120,16 @@ namespace API.Services
             return data;
         }
 
+        public int VerifyAccountByCode(CodeVerification obj)
+        {
+            DynamicParameters parameters = new DynamicParameters();
+            
+            parameters.Add("@Email", obj.Email, DbType.String, ParameterDirection.Input);
+            parameters.Add("@Code", obj.VerifyCode, DbType.String, ParameterDirection.Input);
 
+            var data = _dapper.Insert<int>(@"[dbo].[usp_VerifyUser]", parameters);
+            return data;
+
+        }
     }
 }
